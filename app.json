@@ -1,0 +1,21 @@
+{
+  "name": "InviteBot",
+  "description": "InviteBot is a simple discord.py bot that connects invites to roles, and adds then on_member_join.",
+  "keywords": [
+    "Discord",
+    "invite",
+    "roles"
+  ],
+  "env": {
+    "DISCORD_TOKEN": {
+      "description": "The login token to your bot!  Find this at https://discord.com/developers/applications",
+      "value": "",
+      "required": true
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ]
+}
