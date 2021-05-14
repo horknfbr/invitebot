@@ -6,50 +6,71 @@ import asyncio
 import datetime
 import traceback
 import sys
+from dotenv import load_dotenv
+from discord.ext.commands.errors import ExtensionNotLoaded
 intents = discord.Intents.default()
 intents.members = True
 
+load_dotenv()
+token = os.getenv('DISCORD_TOKEN')
 with open('main-config.json', 'r') as f:
     config = json.load(f)
     prefix = config['Prefix']
-    token = config['DiscordToken']
     logfile = config['LogFile']
     delinvos = config['DeleteOwnerCommandsInvos']
+
 
 def get_prefix(client, message):
     try:
         with open(f'configs/{message.guild.id}.json', 'r') as f:
             config = json.load(f)
             prefix = config['General']['Prefix']
-    except:
+    except IOError:
         prefix = "i!"
 
     return prefix
 
-client = commands.Bot(command_prefix = get_prefix, intents=intents)
+
+client = commands.Bot(command_prefix=get_prefix, intents=intents)
 client.remove_command('help')
+
 
 @client.event
 async def on_ready():
     log("InviteBot started")
     client.loop.create_task(status_task())
     log("Status service started")
-    log(f"InviteBot ready")
+    log("InviteBot ready")
+
 
 @client.event
 async def on_command_error(ctx, exception):
     with open('main-config.json', 'r') as f:
         config = json.load(f)
         owners = config['OwnerUsers']
-    log(f"There was an error that happened in {ctx.guild.name}[{ctx.guild.id}]\n caused by {ctx.message.content}, which was run by {ctx.author.name}[{ctx.author.id}]:\n")
-    traceback.print_exception(type(exception), exception, exception.__traceback__, file=sys.stderr)
+    log("There was an error that happened in"
+        f"{ctx.guild.name}[{ctx.guild.id}]\n"
+        f"caused by {ctx.message.content}, "
+        f"which was run by {ctx.author.name}[{ctx.author.id}]:\n")
+    traceback.print_exception(type(exception),
+                              exception,
+                              exception.__traceback__,
+                              file=sys.stderr)
     print("\n")
     trace = ""
-    for line in traceback.format_exception(type(exception), exception, exception.__traceback__):
+    for line in traceback.format_exception(type(exception),
+                                           exception,
+                                           exception.__traceback__):
         trace += line
     for owner in owners:
         recipient = client.get_user(owner)
-        await recipient.send(f"There was an error that happened in {ctx.guild.name}[{ctx.guild.id}] caused by {ctx.message.content}, which was run by {ctx.author.name}[{ctx.author.id}]:\n ```{trace}```")
+        await recipient.send(f"There was an error that happened in "
+                             f"{ctx.guild.name}[{ctx.guild.id}] "
+                             f"caused by {ctx.message.content}, "
+                             f"which was run by {ctx.author.name}"
+                             f"[{ctx.author.id}]:\n ```{trace}```"
+                             )
+
 
 @client.command(help="Loads a cog.")
 @commands.is_owner()
@@ -62,6 +83,7 @@ async def load(ctx, extension):
         await ctx.send(f'There was a problem loading {extension}')
         log(f'There was a problem loading {extension}')
 
+
 @client.command(help="Unloads a cog.")
 @commands.is_owner()
 async def unload(ctx, extension):
@@ -73,9 +95,10 @@ async def unload(ctx, extension):
         await ctx.send(f'There was a problem unloading {extension}')
         log(f'There was a problem unloading {extension}')
 
-    #deleting invo
-    if delinvos == True:
+    # deleting invo
+    if delinvos is True:
         await ctx.message.delete(delay=5)
+
 
 @client.command(help="Reloads a cog")
 @commands.is_owner()
@@ -92,7 +115,7 @@ async def reload(ctx, extension):
         client.load_extension(f'cogs.{extension}')
         await ctx.send(f'{extension} was reloaded')
         log(f'{extension} was reloaded')
-    #deleting invo
+    # deleting invo
     if delinvos == 1:
         await ctx.message.delete(delay=5)
 
@@ -100,10 +123,15 @@ for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         client.load_extension(f'cogs.{filename[:-3]}')
 
+
 def log(log_msg: str):
-    print(f"[{datetime.datetime.now()}] [\033[1;31mINTERNAL\033[0;0m]: " + log_msg)
+    print(f"[{datetime.datetime.now()}] "
+          "[\033[1;31mINTERNAL\033[0;0m]: " +
+          log_msg
+          )
     with open('log.txt', 'a') as f:
         f.write(f"[{datetime.datetime.now()}] [INTERNAL]: " + log_msg + "\n")
+
 
 async def status_task():
     while True:

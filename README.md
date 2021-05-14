@@ -1,17 +1,20 @@
+# InviteBot
+
 <a target="https://n3v.live/invitebot" href="https://n3v.live/invitebot"><img src="https://n3v.live/icons/bot-invite-blue.svg"></a>
 <a href="https://discord.gg/wsEU32a3ke"><img alt="Discord" src="https://img.shields.io/discord/788042409799712788?style=flat&logo=discord"></a>
 <img src="https://n3v.live/icons/license-MIT-yellow.svg">
 
-# InviteBot
 InviteBot is a simple discord.py bot that connects invites to roles, and adds then on_member_join
 
 If you run into a bug please report it to me :)
 
 ## Usage
+
 If you want to use the bot 'out of the box', I host it publically [here](https://n3v.live/invitebot).</br>
 Be aware that as the bot is under developement, some issues can arise if you use the public version hosted by me (up to when it's 'finished').
 
 ### If you want to selfhost:
+
   1. Clone the Bot
   2. Create a bot application on [Discord Developer Website](https://discord.com/developers)
   3. Go to [config.json](https://github.com/Nevalicjus/invitebot/blob/main/config.json) and fill the [DiscordToken](https://github.com/Nevalicjus/invitebot/blob/main/config.json#L2).
@@ -48,10 +51,13 @@ Be aware that as the bot is under developement, some issues can arise if you use
 The bot prints it's actions on the console, and also writes them to a [logfile](https://github.com/Nevalicjus/invitebot/blob/main/config.json#L4), so you can view them later
 
 ## Contributing
+
 If you want to contribute message join the [discord server](https://discord.gg/wsEU32a3ke) and see **§ Contributing** on #info📜.
 
 ## Contact
+
 You can contact me on Discord - find me on the Support Server/[Twitter](https://twitter.com/maciejbromirski)
 
 ## Thanks
+
 Great thanks to Piotr Młynarski
