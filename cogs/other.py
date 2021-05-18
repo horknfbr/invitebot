@@ -63,11 +63,11 @@ class Other(commands.Cog):
         #removes config file on guild leave
         os.system(f"rm configs/{guild.id}.json")
 
-    @commands.command()
+    @commands.command(aliases = ['savecnfg', 'sconf'])
     #------------------------------
     # Saves the current config
     #------------------------------
-    async def savecnfg(self, ctx):
+    async def saveconfig(self, ctx):
         #checks for invo deletion
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
@@ -97,11 +97,11 @@ class Other(commands.Cog):
         embed = self.constructResponseEmbedBase(f"Your Saved Config was created, at {datetime.datetime.now().strftime('%H:%M:%S | %d/%m/%Y')}")
         await ctx.send(embed = embed)
 
-    @commands.command()
+    @commands.command(aliases = ['lscnfgs', 'lsconf'])
     #------------------------------
     # Lists Saved Configs
     #------------------------------
-    async def lscnfgs(self, ctx, specific: int = -1):
+    async def listconfigs(self, ctx, specific: int = -1):
         #checks for invo deletion
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
@@ -218,11 +218,11 @@ class Other(commands.Cog):
 
         await ctx.send(embed = embed)
 
-    @commands.command()
+    @commands.command(aliases = ['removeconfig', 'delcnfg', 'delconf', 'remconf'])
     #------------------------------
     # Deletes a Saved Config
     #------------------------------
-    async def delcnfg(self, ctx, target_config: int = 0):
+    async def deleteconfig(self, ctx, target_config: int = 0):
         #checks for invo deletion
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
@@ -259,11 +259,11 @@ class Other(commands.Cog):
             await ctx.send(embed = embed)
             return
 
-    @commands.command()
+    @commands.command(aliases = ['switchcnfg', 'switchconf'])
     #------------------------------
     # Saves the current config
     #------------------------------
-    async def switchcnfg(self, ctx, target_config: int = 0):
+    async def switchconfig(self, ctx, target_config: int = 0):
         #checks for invo deletion
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
@@ -524,6 +524,11 @@ class Other(commands.Cog):
             embed.add_field(name = "i!**delinvos y/n**", value = "Enables or disables Invocation Deletion.\nAcceptable input:\nyes/no, y/n, true/false, allow/deny, enable/disable, 1/0", inline = False)
             embed.add_field(name = "i!**enablelog #channel**", value = "**Only for Server Owner**\nAliases - elog\nEnables log on #channel", inline = False)
             embed.add_field(name = "i!**disablelog**", value = "**Only for Server Owner**\nAliases - dlog\nDisables log", inline = False)
+            embed.add_field(name = "**----------**", value = "**----------**", inline = False)
+            embed.add_field(name = "i!**saveconfig**", value = "**Only for Server Owner**\nAliases - savecnfg, sconf\nSaves current full-server config to saved configs", inline = False)
+            embed.add_field(name = "i!**listconfigs**", value = "**Only for Server Owner**\nAliases - lscnfgs, lsconf\nLists your saved configs", inline = False)
+            embed.add_field(name = "i!**deleteconfig**", value = "**Only for Server Owner**\nAliases - removeconfig, delcnfg, delconf, remconf\nDeletes a saved config", inline = False)
+            embed.add_field(name = "i!**switchconfig**", value = "**Only for Server Owner**\nAliases - switchcnfg, switchconf\nLoads a saved config in place of the current one, after saving the currently used config", inline = False)
             embed.add_field(name = "**----------**", value = "**----------**", inline = False)
             embed.add_field(name = "i!**invite**", value = "Sends you the bot invite", inline = False)
             await ctx.send(embed = embed)
